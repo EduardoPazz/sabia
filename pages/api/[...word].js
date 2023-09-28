@@ -24,9 +24,8 @@ async function fetchDicio(word) {
             console.error(`Erro ao buscar a palavra ${word}: ${error}`);
             return null;
         });
-    ;
 }
 
 export default async function handler(req, res) {
-    res.status(200).json(await getSyllables(req.query.word));
+    res.status(200).json(await getSyllables(req.query.word[0]));
 }
