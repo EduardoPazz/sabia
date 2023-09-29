@@ -1,41 +1,23 @@
-import type { NextApiRequest, NextApiResponse } from "next";
-import Cors from "cors";
-
-const cors = Cors();
-
 const notFoundRegex = /Não encontrada/;
 const syllablesRegex =
   /Separação silábica: <b>([a-zA-Z\u00C0-\u00FF]+(?:-[a-zA-Z\u00C0-\u00FF]+)*)<\/b>/;
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
+export const runtime = "edge";
+
+export async function GET(
+  _: unknown,
+  { params }: { params: { word: string } }
 ) {
-  await runMiddleware(req, res, cors);
+  const { word } = params;
 
-  const word = req.query.word?.[0];
-
-  if (!word) {
-    res.status(400).json({ error: "Missing word parameter" });
-    return;
-  }
-
-  res.status(200).json(await getSyllables(word));
-}
-
-function runMiddleware(
-  req: NextApiRequest,
-  res: NextApiResponse,
-  fn: Function
-) {
-  return new Promise((resolve, reject) => {
-    fn(req, res, (result: any) => {
-      if (result instanceof Error) {
-        return reject(result);
-      }
-
-      return resolve(result);
-    });
+  return Response.json(await getSyllables(word), {
+    status: 200,
+    headers: {
+      "Cache-Control": "public,max-age=31536000,immutable",
+      "Content-Type": "application/json",
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "GET",
+    },
   });
 }
 

@@ -5,12 +5,6 @@
     "start": "next start"
   },
   "dependencies": {
-    "cors": "latest",
     "next": "latest"
-  },
-  "devDependencies": {
-    "@types/cors": "latest",
-    "@types/react": "18.2.23",
-    "typescript": "5.2.2"
   }
 }
