@@ -6,7 +6,7 @@ export const runtime = "edge";
 
 export async function GET(
   _: unknown,
-  { params }: { params: { word: string } }
+  { params }: { params: { word: string } },
 ) {
   const { word } = params;
 
