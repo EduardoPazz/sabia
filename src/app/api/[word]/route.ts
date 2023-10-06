@@ -6,14 +6,16 @@ export const runtime = "edge";
 
 export async function GET(
   _: unknown,
-  { params }: { params: { word: string } },
+  { params }: { params: { word: string } }
 ) {
   const { word } = params;
 
   return Response.json(await getSyllables(word), {
     status: 200,
     headers: {
-      "Cache-Control": "public,max-age=31536000,immutable",
+      "Cache-Control": "max-age=2678400, s-maxage=2678400",
+      "CDN-Cache-Control": "max-age=2678400, s-maxage=2678400",
+      "Vercel-CDN-Cache-Control": "max-age=2678400, s-maxage=2678400",
       "Content-Type": "application/json",
       "Access-Control-Allow-Origin": "*",
       "Access-Control-Allow-Methods": "GET",
