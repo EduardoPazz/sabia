@@ -1,48 +1,31 @@
-const notFoundRegex = /Não encontrada/;
-const syllablesRegex =
-  /Separação silábica: <b>([a-zA-Z\u00C0-\u00FF]+(?:-[a-zA-Z\u00C0-\u00FF]+)*)<\/b>/;
+import { getDictFields } from "lib/getDictFields";
+import { parseFields } from "lib/parseFields";
+import { NextRequest, NextResponse } from "next/server";
 
 export const runtime = "edge";
 
+const HEADERS = {
+  "Cache-Control": "max-age=2678400, s-maxage=2678400",
+  "CDN-Cache-Control": "max-age=2678400, s-maxage=2678400",
+  "Vercel-CDN-Cache-Control": "max-age=2678400, s-maxage=2678400",
+  "Content-Type": "application/json",
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Methods": "GET",
+};
+
 export async function GET(
-  _: unknown,
-  { params }: { params: { word: string } }
+  request: NextRequest,
+  { params }: { params: { word: string } },
 ) {
   const { word } = params;
+  const fields = parseFields(request.nextUrl.searchParams.get("fields"));
 
-  return Response.json(await getSyllables(word), {
-    status: 200,
-    headers: {
-      "Cache-Control": "max-age=2678400, s-maxage=2678400",
-      "CDN-Cache-Control": "max-age=2678400, s-maxage=2678400",
-      "Vercel-CDN-Cache-Control": "max-age=2678400, s-maxage=2678400",
-      "Content-Type": "application/json",
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Methods": "GET",
-    },
-  });
-}
-
-async function getSyllables(word: string) {
-  const html = await fetchDicio(word.normalize("NFD").replace(/\p{Mn}/gu, ""));
-
-  if (!html || notFoundRegex.test(html)) {
-    console.error(`Palavra ${word} não encontrada: ${html}`);
-    return null;
-  }
-
-  return {
-    word,
-    syllables: html.match(syllablesRegex)?.[1],
-    spelling: word.split("").join("-"),
-  };
-}
-
-async function fetchDicio(word: string) {
-  return fetch(`https://www.dicio.com.br/${word}`)
-    .then((res) => res.text())
-    .catch((error) => {
-      console.error(`Erro ao buscar a palavra ${word}: ${error}`);
-      return null;
+  try {
+    return Response.json(await getDictFields(word, fields), {
+      status: 200,
+      headers: HEADERS,
     });
+  } catch (e) {
+    return NextResponse.json((e as Error).stack, { status: 503 });
+  }
 }
