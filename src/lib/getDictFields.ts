@@ -11,11 +11,17 @@ const extractField = (html: string) => (field: string) => {
     throw new Error(`No mapped extractor for field: ${field}`);
   }
 
-  return { [field]: extractor(html) };
+  const extractedField = extractor(html);
+
+  return extractedField && { [field]: extractedField };
 };
 
 export async function getDictFields(word: string, fields: string[]) {
   const html = await fetchDicio(normalize(word));
 
-  return fields.map(extractField(html)).reduce(toObject, {});
+  const extractedFields = fields
+    .map(extractField(html))
+    .filter(Boolean) as unknown as Record<string, string>[];
+
+  return extractedFields.length && extractedFields.reduce(toObject, {});
 }

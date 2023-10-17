@@ -20,12 +20,20 @@ export async function GET(
   const { word } = params;
   const fields = parseFields(request.nextUrl.searchParams.get("fields"));
 
+  let response;
+
   try {
-    return Response.json(await getDictFields(word, fields), {
-      status: 200,
-      headers: HEADERS,
-    });
+    response = await getDictFields(word, fields);
   } catch (e) {
     return NextResponse.json((e as Error).stack, { status: 503 });
   }
+
+  if (!response) {
+    return NextResponse.json(`${word} not found`, { status: 404 });
+  }
+
+  return Response.json(response, {
+    status: 200,
+    headers: HEADERS,
+  });
 }
