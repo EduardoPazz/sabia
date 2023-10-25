@@ -16,6 +16,7 @@
     "react-dom": "latest"
   },
   "devDependencies": {
+    "@types/dom-speech-recognition": "latest",
     "@types/node": "latest",
     "@types/react": "latest",
     "@types/react-dom": "latest",
