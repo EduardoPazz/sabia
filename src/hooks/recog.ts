@@ -6,6 +6,10 @@ export function useRecog() {
   const SpeechRecognition =
     window.SpeechRecognition || window.webkitSpeechRecognition;
 
+  if (!SpeechRecognition) {
+    return null;
+  }
+
   const recog = new SpeechRecognition();
 
   recog.lang = "pt-BR";
