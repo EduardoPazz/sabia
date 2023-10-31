@@ -1,10 +1,11 @@
 "use client";
 
-import { Button } from "@mui/material";
+import { Button, Stack } from "@mui/material";
 import { useState } from "react";
 
 export function RecordButton({ recog }: { recog: SpeechRecognition }) {
   const [isRecording, setIsRecording] = useState(false);
+  const [result, setResult] = useState("");
 
   recog.onstart = (e) => {
     console.log(e);
@@ -18,6 +19,11 @@ export function RecordButton({ recog }: { recog: SpeechRecognition }) {
     setIsRecording(false);
   };
 
+  recog.onresult = (e) => {
+    setResult(e.results[0][0].transcript);
+    setIsRecording(false);
+  };
+
   function handleClick() {
     if (isRecording) {
       recog.stop();
@@ -27,8 +33,11 @@ export function RecordButton({ recog }: { recog: SpeechRecognition }) {
   }
 
   return (
-    <Button variant="contained" onClick={handleClick}>
-      {isRecording ? "Stop" : "Record"}
-    </Button>
+    <Stack spacing={3}>
+      <Button variant="contained" onClick={handleClick}>
+        {isRecording ? "Stop" : "Record"}
+      </Button>
+      {result}
+    </Stack>
   );
 }
