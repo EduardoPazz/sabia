@@ -1,12 +1,14 @@
 "use client";
-
 import { Stack } from "@mui/material";
-import { RecordButton } from "components/RecordButton";
-import { useRecog } from "hooks/recog";
+import { RecogSection } from "components/RecogSection";
+import { useRecog } from "hooks/useRecog";
 
 export default function HomePage() {
   const recog = useRecog();
-  return (
+
+  return recog ? (
+    <RecogSection recog={recog} />
+  ) : (
     <Stack
       position="absolute"
       left={0}
@@ -17,11 +19,7 @@ export default function HomePage() {
       alignItems="center"
       spacing={2}
     >
-      {recog ? (
-        <RecordButton recog={recog} />
-      ) : (
-        "Não é possível usar o reconhecimento de voz."
-      )}
+      Não é possível usar o reconhecimento de voz.
     </Stack>
   );
 }

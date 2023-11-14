@@ -1,10 +1,9 @@
 "use client";
 
-import { useMediaQuery } from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
-import { ThemeProvider, createTheme } from "@mui/material/styles";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Roboto } from "next/font/google";
-import { useMemo } from "react";
+import { ReactNode } from "react";
 import NextAppDirEmotionCacheProvider from "./EmotionCache";
 
 const roboto = Roboto({
@@ -13,26 +12,24 @@ const roboto = Roboto({
   display: "swap",
 });
 
-export default function ThemeRegistry({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
+const styleOverrides = `
+html, body {
+  height: 100%;
+}
+`;
 
-  const theme = useMemo(
-    () =>
-      createTheme({
-        palette: {
-          mode: prefersDarkMode ? "dark" : "light",
-        },
-        typography: {
-          fontFamily: roboto.style.fontFamily,
-        },
-      }),
-    [prefersDarkMode]
-  );
+const theme = createTheme({
+  typography: {
+    fontFamily: roboto.style.fontFamily,
+  },
+  components: {
+    MuiCssBaseline: {
+      styleOverrides,
+    },
+  },
+});
 
+export default function ThemeRegistry({ children }: { children: ReactNode }) {
   return (
     <NextAppDirEmotionCacheProvider options={{ key: "mui" }}>
       <ThemeProvider theme={theme}>

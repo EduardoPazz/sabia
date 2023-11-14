@@ -1,4 +1,5 @@
-import { Container } from "@mui/material";
+import { Stack } from "@mui/material";
+import AppBar from "components/AppBar";
 import ThemeRegistry from "components/ThemeRegistry/ThemeRegistry";
 
 export const metadata = {
@@ -15,7 +16,10 @@ export default function RootLayout({
     <html lang="pt-BR">
       <body>
         <ThemeRegistry>
-          <Container component="main">{children}</Container>
+          <Stack sx={{ height: "100%" }} component="main" maxWidth="lg">
+            <AppBar />
+            {children}
+          </Stack>
         </ThemeRegistry>
       </body>
     </html>
