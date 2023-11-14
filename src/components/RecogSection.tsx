@@ -8,7 +8,7 @@ import { useState } from "react";
 import parrot from "../../public/parrot.png";
 
 export function RecogSection({ recog }: { recog: SpeechRecognition }) {
-  const [content, setContent] = useState("paraguaio");
+  const [content, setContent] = useState("");
 
   return (
     <Stack
