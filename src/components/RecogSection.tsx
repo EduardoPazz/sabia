@@ -37,9 +37,11 @@ export function RecogSection({ recog }: { recog: SpeechRecognition }) {
         <Image src={parrot} alt="paraguaio" width={100} />
         {content
           ? Object.values(content).map((it) => (
-              <Typography key={it} fontStyle="italic">
-                {it}
-              </Typography>
+              <Typography
+                key={it}
+                fontStyle="italic"
+                dangerouslySetInnerHTML={{ __html: it }}
+              />
             ))
           : "..."}
       </Stack>
@@ -52,9 +54,9 @@ export function RecogSection({ recog }: { recog: SpeechRecognition }) {
         startIcon={<RecordVoiceOverIcon />}
         sx={{ maxWidth: 180 }}
         disabled={!content}
-        onClick={() => speak(content?.syllables as string)}
+        onClick={() => speak(content?.word as string)}
       >
-        sílabas
+        repetir
       </Button>
 
       <Button
@@ -63,7 +65,7 @@ export function RecogSection({ recog }: { recog: SpeechRecognition }) {
         startIcon={<RecordVoiceOverIcon />}
         sx={{ maxWidth: 180 }}
         disabled={!content}
-        onClick={() => speak(content?.spelling as string)}
+        onClick={() => content?.spelling.split("-").forEach(speak)}
       >
         soletrar
       </Button>

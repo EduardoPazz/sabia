@@ -16,7 +16,12 @@ export default function RootLayout({
     <html lang="pt-BR">
       <body>
         <ThemeRegistry>
-          <Stack sx={{ height: "100%" }} component="main" maxWidth="lg">
+          <Stack
+            sx={{ height: "100%" }}
+            component="main"
+            maxWidth="lg"
+            mx="auto"
+          >
             <AppBar />
             {children}
           </Stack>
