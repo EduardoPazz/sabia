@@ -12,23 +12,31 @@ const headers = {
   "Access-Control-Allow-Methods": "GET",
 };
 
+const buildSuccessResponse = (body: string) => ({
+  body,
+  init: { status: 200, headers },
+});
+
+const buildNotFoundResponse = (word: string) => ({
+  body: `${word} not found`,
+  init: { status: 404 },
+});
+
+const buildServerErrorResponse = (e: Error) => ({
+  body: e.stack,
+  init: { status: 503 },
+});
+
 export async function GET(
   _: unknown,
   { params }: { params: { word: string } },
 ) {
   const { word } = params;
 
-  let response;
-
-  try {
-    response = await fetchSyllables(word);
-  } catch (e) {
-    return NextResponse.json((e as Error).stack, { status: 503 });
-  }
-
-  if (!response) {
-    return NextResponse.json(`${word} not found`, { status: 404 });
-  }
-
-  return NextResponse.json(response, { status: 200, headers });
+  return fetchSyllables(word)
+    .then((body) =>
+      body ? buildSuccessResponse(body) : buildNotFoundResponse(word),
+    )
+    .catch(buildServerErrorResponse)
+    .then(({ body, init }) => NextResponse.json(body, init));
 }
