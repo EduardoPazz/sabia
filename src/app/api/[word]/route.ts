@@ -1,10 +1,9 @@
-import { getDictFields } from "lib/getDictFields";
-import { parseFields } from "lib/parseFields";
-import { NextRequest, NextResponse } from "next/server";
+import { fetchSyllables } from "lib/fetchSyllables";
+import { NextResponse } from "next/server";
 
 export const runtime = "edge";
 
-const HEADERS = {
+const headers = {
   "Cache-Control": "max-age=2678400, s-maxage=2678400",
   "CDN-Cache-Control": "max-age=2678400, s-maxage=2678400",
   "Vercel-CDN-Cache-Control": "max-age=2678400, s-maxage=2678400",
@@ -14,16 +13,15 @@ const HEADERS = {
 };
 
 export async function GET(
-  request: NextRequest,
+  _: unknown,
   { params }: { params: { word: string } },
 ) {
   const { word } = params;
-  const fields = parseFields(request.nextUrl.searchParams.get("fields"));
 
   let response;
 
   try {
-    response = await getDictFields(word, fields);
+    response = await fetchSyllables(word);
   } catch (e) {
     return NextResponse.json((e as Error).stack, { status: 503 });
   }
@@ -32,8 +30,5 @@ export async function GET(
     return NextResponse.json(`${word} not found`, { status: 404 });
   }
 
-  return Response.json(response, {
-    status: 200,
-    headers: HEADERS,
-  });
+  return NextResponse.json(response, { status: 200, headers });
 }
