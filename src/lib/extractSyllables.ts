@@ -1,5 +1,7 @@
 const SYLLABLES_REGEX =
-  /Separação silábica: <b>([a-zA-Z\u00C0-\u00FF]+(?:-[a-zA-Z\u00C0-\u00FF]+)*)<\/b>/;
+  /<font color="#0018BF" style="font-size:1\.9em">(.+?)(?=<\/font>)/;
+
+const INNER_TAGS_REGEX = /<.+?>/g;
 
 export const extractSyllables = (html: string) =>
-  html.match(SYLLABLES_REGEX)?.[1];
+  html.match(SYLLABLES_REGEX)?.[1].replace(INNER_TAGS_REGEX, "");
