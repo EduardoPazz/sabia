@@ -1,5 +1,4 @@
 import MicIcon from "@mui/icons-material/Mic";
-import MicOffIcon from "@mui/icons-material/MicOff";
 import Button from "@mui/material/Button";
 import { useState } from "react";
 
@@ -28,19 +27,16 @@ export function RecordButton({
     onResult(transcript.split(" ")[0]);
   };
 
-  const [Icon, message] = isRecording
-    ? [MicOffIcon, "parar"]
-    : [MicIcon, "gravar"];
-
   return (
     <Button
       variant="contained"
       fullWidth
-      startIcon={<Icon />}
-      onClick={() => (isRecording ? recog.stop() : recog.start())}
+      startIcon={<MicIcon />}
+      disabled={isRecording}
+      onClick={() => recog.start()}
       sx={{ maxWidth: 180 }}
     >
-      {message}
+      {isRecording ? "gravando" : "gravar"}
     </Button>
   );
 }

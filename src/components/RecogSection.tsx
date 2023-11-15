@@ -5,10 +5,20 @@ import Button from "@mui/material/Button";
 import { RecordButton } from "components/RecordButton";
 import Image from "next/image";
 import { useState } from "react";
+import { Word } from "types/Word";
+import { requestSyllables } from "utils/requestSyllables";
+import { speak } from "utils/speak";
 import parrot from "../../public/parrot.png";
 
 export function RecogSection({ recog }: { recog: SpeechRecognition }) {
-  const [content, setContent] = useState("");
+  const [content, setContent] = useState<Word>();
+
+  const buildWordContent = async (result: string) =>
+    setContent({
+      word: result,
+      syllables: await requestSyllables(result),
+      spelling: result.split("").join("-"),
+    });
 
   return (
     <Stack
@@ -25,14 +35,16 @@ export function RecogSection({ recog }: { recog: SpeechRecognition }) {
         spacing={2}
       >
         <Image src={parrot} alt="paraguaio" width={100} />
-        {content ? (
-          <Typography fontStyle="italic">— {content}</Typography>
-        ) : (
-          "..."
-        )}
+        {content
+          ? Object.values(content).map((it) => (
+              <Typography key={it} fontStyle="italic">
+                {it}
+              </Typography>
+            ))
+          : "..."}
       </Stack>
 
-      <RecordButton recog={recog} onResult={setContent} />
+      <RecordButton recog={recog} onResult={buildWordContent} />
 
       <Button
         variant="outlined"
@@ -40,6 +52,7 @@ export function RecogSection({ recog }: { recog: SpeechRecognition }) {
         startIcon={<RecordVoiceOverIcon />}
         sx={{ maxWidth: 180 }}
         disabled={!content}
+        onClick={() => speak(content?.syllables as string)}
       >
         sílabas
       </Button>
@@ -50,6 +63,7 @@ export function RecogSection({ recog }: { recog: SpeechRecognition }) {
         startIcon={<RecordVoiceOverIcon />}
         sx={{ maxWidth: 180 }}
         disabled={!content}
+        onClick={() => speak(content?.spelling as string)}
       >
         soletrar
       </Button>
