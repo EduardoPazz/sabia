@@ -1,7 +1,14 @@
-import { Button, Stack } from "@mui/material";
+"use client";
+import { Stack } from "@mui/material";
+import { RecogSection } from "components/RecogSection";
+import { useRecog } from "hooks/useRecog";
 
 export default function HomePage() {
-  return (
+  const recog = useRecog();
+
+  return recog ? (
+    <RecogSection recog={recog} />
+  ) : (
     <Stack
       position="absolute"
       left={0}
@@ -12,7 +19,7 @@ export default function HomePage() {
       alignItems="center"
       spacing={2}
     >
-      <Button variant="contained">teste</Button>
+      Não é possível usar o reconhecimento de voz.
     </Stack>
   );
 }
