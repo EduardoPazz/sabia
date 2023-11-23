@@ -16,6 +16,9 @@ const styleOverrides = `
 html, body {
   height: 100%;
 }
+a {
+  color: inherit;
+}
 `;
 
 const theme = createTheme({
@@ -33,7 +36,6 @@ export default function ThemeRegistry({ children }: { children: ReactNode }) {
   return (
     <NextAppDirEmotionCacheProvider options={{ key: "mui" }}>
       <ThemeProvider theme={theme}>
-        {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
         <CssBaseline />
         {children}
       </ThemeProvider>
