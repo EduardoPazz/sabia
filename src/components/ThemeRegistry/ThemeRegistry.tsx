@@ -2,12 +2,11 @@
 
 import CssBaseline from "@mui/material/CssBaseline";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { Roboto } from "next/font/google";
+import { Inter } from "next/font/google";
 import { ReactNode } from "react";
 import NextAppDirEmotionCacheProvider from "./EmotionCache";
 
-const roboto = Roboto({
-  weight: ["300", "400", "500", "700"],
+const nextFont = Inter({
   subsets: ["latin"],
   display: "swap",
 });
@@ -23,7 +22,7 @@ a {
 
 const theme = createTheme({
   typography: {
-    fontFamily: roboto.style.fontFamily,
+    fontFamily: nextFont.style.fontFamily,
   },
   components: {
     MuiCssBaseline: {
