@@ -21,7 +21,7 @@ export default function AppBar() {
         </Stack>
         <Stack flexDirection="row" gap={1}>
           <Link href="/">
-            <Button color="inherit">Home</Button>
+            <Button color="inherit">Início</Button>
           </Link>
           <Link href="/sobre">
             <Button color="inherit">Sobre</Button>
