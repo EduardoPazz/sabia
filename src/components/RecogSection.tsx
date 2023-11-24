@@ -1,4 +1,3 @@
-"use client";
 import RecordVoiceOverIcon from "@mui/icons-material/RecordVoiceOver";
 import { Stack, Typography } from "@mui/material";
 import Button from "@mui/material/Button";
@@ -26,7 +25,7 @@ export function RecogSection({ recog }: { recog: SpeechRecognition }) {
       alignItems="center"
       spacing={2}
       flexGrow={1}
-      pb={1}
+      pb={3}
     >
       <Stack
         flexGrow={1}
