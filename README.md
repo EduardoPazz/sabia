@@ -17,6 +17,7 @@ Esse projeto foi desenvolvido em duas partes com dependência em algumas tecnolo
     - [Typescript](https://www.typescriptlang.org/)
     - [Material UI](https://mui.com/)
     - [Web Speech API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Speech_API)
+    - [Vercel](https://vercel.com/home)
 - API HTTP de separação silábica de palavras:
     - [Nodejs](https://nodejs.org/)
     - [Vercel edge functions](https://vercel.com/features/edge-functions)
