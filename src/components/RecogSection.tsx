@@ -39,6 +39,8 @@ export function RecogSection({ recog }: { recog: SpeechRecognition }) {
               <Typography
                 key={it}
                 fontStyle="italic"
+                variant="h5"
+                component="p"
                 dangerouslySetInnerHTML={{ __html: it }}
               />
             ))
@@ -49,6 +51,7 @@ export function RecogSection({ recog }: { recog: SpeechRecognition }) {
 
       <Button
         variant="outlined"
+        size="large"
         fullWidth
         startIcon={<RecordVoiceOverIcon />}
         sx={{ maxWidth: 180 }}
@@ -60,6 +63,7 @@ export function RecogSection({ recog }: { recog: SpeechRecognition }) {
 
       <Button
         variant="outlined"
+        size="large"
         fullWidth
         startIcon={<RecordVoiceOverIcon />}
         sx={{ maxWidth: 180 }}

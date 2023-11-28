@@ -30,6 +30,7 @@ export function RecordButton({
   return (
     <Button
       variant="contained"
+      size="large"
       fullWidth
       startIcon={<MicIcon />}
       disabled={isRecording}

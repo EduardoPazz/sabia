@@ -23,6 +23,7 @@ a {
 const theme = createTheme({
   typography: {
     fontFamily: nextFont.style.fontFamily,
+    fontSize: 16,
   },
   components: {
     MuiCssBaseline: {
@@ -31,13 +32,11 @@ const theme = createTheme({
   },
 });
 
-export default function ThemeRegistry({ children }: { children: ReactNode }) {
-  return (
-    <NextAppDirEmotionCacheProvider options={{ key: "mui" }}>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        {children}
-      </ThemeProvider>
-    </NextAppDirEmotionCacheProvider>
-  );
-}
+export const ThemeRegistry = ({ children }: { children: ReactNode }) => (
+  <NextAppDirEmotionCacheProvider options={{ key: "mui" }}>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      {children}
+    </ThemeProvider>
+  </NextAppDirEmotionCacheProvider>
+);
