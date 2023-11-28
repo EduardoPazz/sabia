@@ -4,7 +4,7 @@ pela [Prof.ª Dr.ª Sarajane Marques Peres ](https://each.uspnet.usp.br/sarajane
 
 | Nome                               | Email                  |
 |------------------------------------|------------------------|
-| Cesar Yamasato                     | [e-mail USP]           |
+| Cesar Yamasato                     | cesar.yamasato@usp.br  |
 | João Eduardo da Paz Silva          | eduardopaz@usp.br      |
 | Kennedy Rohab Menezes da Silva     | kennedy_menezes@usp.br |
 | Lucas Panta de Moura               | lucaspanta007@usp.br   |
