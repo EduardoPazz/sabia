@@ -15,7 +15,7 @@ export function RecogSection({ recog }: { recog: SpeechRecognition }) {
   const buildWordContent = async (result: string) => {
     const word = result.toLowerCase();
 
-    return setContent({
+    setContent({
       word,
       syllables: await requestSyllables(word),
       spelling: word.replace("-", "").split("").join("-"),
