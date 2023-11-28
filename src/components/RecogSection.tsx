@@ -12,12 +12,15 @@ import parrot from "../../public/parrot.png";
 export function RecogSection({ recog }: { recog: SpeechRecognition }) {
   const [content, setContent] = useState<Word>();
 
-  const buildWordContent = async (result: string) =>
-    setContent({
-      word: result,
-      syllables: await requestSyllables(result),
-      spelling: result.split("").join("-"),
+  const buildWordContent = async (result: string) => {
+    const word = result.toLowerCase();
+
+    return setContent({
+      word,
+      syllables: await requestSyllables(word),
+      spelling: word.replace("-", "").split("").join("-"),
     });
+  };
 
   return (
     <Stack
