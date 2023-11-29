@@ -14,13 +14,11 @@ export function RecogSection({ recog }: { recog: SpeechRecognition }) {
   const [loading, setLoading] = useState(false);
 
   const buildWordContent = (result: string) => {
-    const word = result.toLowerCase();
-
-    const syllablesPromise = requestSyllables(word);
-
     setLoading(true);
 
-    syllablesPromise
+    const word = result.toLowerCase();
+
+    requestSyllables(word)
       .then((syllables) =>
         setContent({
           word,
