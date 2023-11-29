@@ -1,5 +1,5 @@
 import RecordVoiceOverIcon from "@mui/icons-material/RecordVoiceOver";
-import { Stack, Typography } from "@mui/material";
+import { CircularProgress, Stack, Typography } from "@mui/material";
 import Button from "@mui/material/Button";
 import { RecordButton } from "components/RecordButton";
 import Image from "next/image";
@@ -11,15 +11,24 @@ import parrot from "../../public/parrot.png";
 
 export function RecogSection({ recog }: { recog: SpeechRecognition }) {
   const [content, setContent] = useState<Word>();
+  const [loading, setLoading] = useState(false);
 
-  const buildWordContent = async (result: string) => {
+  const buildWordContent = (result: string) => {
     const word = result.toLowerCase();
 
-    setContent({
-      word,
-      syllables: await requestSyllables(word),
-      spelling: word.replace("-", "").split("").join("-"),
-    });
+    const syllablesPromise = requestSyllables(word);
+
+    setLoading(true);
+
+    syllablesPromise
+      .then((syllables) =>
+        setContent({
+          word,
+          syllables,
+          spelling: word.replace("-", "").split("").join("-"),
+        }),
+      )
+      .finally(() => setLoading(false));
   };
 
   return (
@@ -37,17 +46,21 @@ export function RecogSection({ recog }: { recog: SpeechRecognition }) {
         spacing={2}
       >
         <Image src={parrot} alt="paraguaio" width={100} />
-        {content
-          ? Object.values(content).map((it) => (
-              <Typography
-                key={it}
-                fontStyle="italic"
-                variant="h5"
-                component="p"
-                dangerouslySetInnerHTML={{ __html: it }}
-              />
-            ))
-          : "..."}
+        {loading ? (
+          <CircularProgress />
+        ) : content ? (
+          Object.values(content).map((it) => (
+            <Typography
+              key={it}
+              fontStyle="italic"
+              variant="h5"
+              component="p"
+              dangerouslySetInnerHTML={{ __html: it }}
+            />
+          ))
+        ) : (
+          "..."
+        )}
       </Stack>
 
       <RecordButton recog={recog} onResult={buildWordContent} />

@@ -1,5 +1,2 @@
-export const requestSyllables = (word: string) => {
-  console.log("fetching syllables for", word);
-
-  return fetch(`/api/${word}`).then((res) => res.json());
-};
+export const requestSyllables = (word: string) =>
+  fetch(`/api/${word}`).then((res) => res.json() as Promise<string>);
